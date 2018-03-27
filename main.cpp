@@ -698,6 +698,9 @@ void LogFiles(MetaData meta_data, Configuration config_file, LogFile* log_out)
   log_out->LogChar('\n');
   log_out->LogString("Projector quantity: ");
   log_out->LogInt(config_file.GetProjectorQuantity());
+  log_out->LogChar('\n');
+  log_out->LogString("Hard drive quantity: ");
+  log_out->LogInt(config_file.GetHardDriveQuantity());
   log_out->LogString("\n\n");
 
 	//Logs the meta_data;
