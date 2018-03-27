@@ -38,6 +38,7 @@ public:
 	bool SetLogTo(std::string choice); //Sets whether to log to monitor, logile, or both
 	bool SetSystemMemory(int system_memory); //Sets the system memory
   bool SetProjectorQuantity(int quantity); //Sets the projector quantity
+  bool SetHardDriveQuantity(int quantity); //Sets the hard drive quantity
 
 	int LoadConfigFile(std::string file_name); //Loads the file data
 	int GetProjectorCycle(); //Returns the value of m_cycle_projector
@@ -49,6 +50,7 @@ public:
 	int GetHardDriveCycle(); //Returns the value of m_cycle_hard_drive
 	int GetSystemMemory();   //Returns the value of m_system_memory
   int GetProjectorQuantity(); //Returns the quantity of projectors
+  int GetHardDriveQuantity(); //Returns the quantity of hard drives
 
 	void PrintAllData();     //Prints all int values of this object out
 
@@ -66,6 +68,7 @@ private:
 	int m_cycle_hard_drive; //cycle time in ms of the hard drive
 	int m_system_memory; //amount of system memory
   int m_projector_quantity; //quantity of projectors in system
+  int m_hard_drive_quantity; //quantity of hard drive in system
 
 	std::string m_meta_data_name; //name of the meta data file
 	std::string m_log_file_name; //name of the log file
