@@ -696,6 +696,10 @@ void LogFiles(MetaData meta_data, Configuration config_file, LogFile* log_out)
 	log_out->LogInt(config_file.GetSystemMemory());
 	log_out->LogString(" kbytes");
   log_out->LogChar('\n');
+  log_out->LogString("Memory block size: ");
+	log_out->LogInt(config_file.GetMemoryBlockSize());
+	log_out->LogString(" kbytes");
+  log_out->LogChar('\n');
   log_out->LogString("Projector quantity: ");
   log_out->LogInt(config_file.GetProjectorQuantity());
   log_out->LogChar('\n');
