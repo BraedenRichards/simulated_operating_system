@@ -101,14 +101,6 @@ void OutputErrorMessage(int error);
 void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int log_to, Configuration config_file, PCB *pcb);
 
 /**
-	Returns a random number
-
-	@params void
-	@return int
-*/
-int GetRandomInt();
-
-/**
 	Logs the objects of MetaData and Configuration to a logfile
 
 	@params void
@@ -649,19 +641,6 @@ void wait()
 		// std::cout << "Timer_set = " << timer_set << std::endl;
 
 	return;
-}
-
-/**
-	Returns a random number
-
-	@params void
-	@return int
-*/
-int GetRandomInt()
-{
-	srand(time(NULL));
-
-	return (rand() % 100 + 1);
 }
 
 /**
