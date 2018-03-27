@@ -39,6 +39,7 @@ public:
 	bool SetSystemMemory(int system_memory); //Sets the system memory
   bool SetProjectorQuantity(int quantity); //Sets the projector quantity
   bool SetHardDriveQuantity(int quantity); //Sets the hard drive quantity
+  bool SetMemoryBlockSize(int size); //Sets the size of the memory blocks in kilobytes
 
 	int LoadConfigFile(std::string file_name); //Loads the file data
 	int GetProjectorCycle(); //Returns the value of m_cycle_projector
@@ -51,6 +52,7 @@ public:
 	int GetSystemMemory();   //Returns the value of m_system_memory
   int GetProjectorQuantity(); //Returns the quantity of projectors
   int GetHardDriveQuantity(); //Returns the quantity of hard drives
+  int GetMemoryBlockSize(); //Returns the size of the memory blocks in kilobytes
 
 	void PrintAllData();     //Prints all int values of this object out
 
@@ -69,6 +71,7 @@ private:
 	int m_system_memory; //amount of system memory
   int m_projector_quantity; //quantity of projectors in system
   int m_hard_drive_quantity; //quantity of hard drive in system
+  int m_memory_block_size; //size of the memory's blocks, in kilobytes
 
 	std::string m_meta_data_name; //name of the meta data file
 	std::string m_log_file_name; //name of the log file

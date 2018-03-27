@@ -168,6 +168,20 @@ int Configuration::LoadConfigFile(std::string file_name)
     			SetMemory(val);
     			what_cycle++;
         }
+        else if(temp.compare("block") == 0)
+        {
+          while(temp.compare("{kbytes}:") != 0)
+          {
+            in_file >> temp;
+          }
+
+          in_file >> temp;
+          int val = 5;
+    			std::stringstream typ_int(temp);
+    			typ_int >> val;
+    			SetMemoryBlockSize(val);
+    			what_cycle++;
+        }
       }
       else if(temp.compare("Scanner") == 0)
       {
@@ -421,6 +435,19 @@ bool Configuration::SetHardDriveQuantity(int quantity)
 }
 
 /**
+	Sets the quantity of hard drives
+
+	@param quantity
+	@return boolean value - true if successful, false if not
+*/
+bool Configuration::SetMemoryBlockSize(int size)
+{
+	m_memory_block_size = size;
+
+	return true;
+}
+
+/**
 	Returns the value stores in m_cycle_projector
 
 	@param void
@@ -536,6 +563,17 @@ int Configuration::GetHardDriveQuantity()
 }
 
 /**
+	Returns the value stored in m_memory_block_size
+
+	@params void
+	@return m_memory_block_size
+*/
+int Configuration::GetMemoryBlockSize()
+{
+	return m_memory_block_size;
+}
+
+/**
 	Prints the values of all data held in the object to display (monitor)
 
 	@params void
@@ -552,6 +590,7 @@ void Configuration::PrintAllData()
 	std::cout << "Memory = " << m_cycle_memory << " ms/cycle" << std::endl;
 	std::cout << "Projector = " << m_cycle_projector << " ms/cycle" << std::endl;
 	std::cout << "System memory: " << m_system_memory << " kbytes" << std::endl;
+  std::cout << "Memory block size " << m_memory_block_size << " kbytes" << std::endl;
   std::cout << "Projector quantity: " << m_projector_quantity << std::endl;
   std::cout << "Hard drive quantity: " << m_hard_drive_quantity << std::endl;
 	std::cout << "Logged to: ";
