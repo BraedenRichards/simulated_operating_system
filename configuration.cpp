@@ -51,69 +51,130 @@ int Configuration::LoadConfigFile(std::string file_name)
 		{
 			in_file >> temp;
 
-			//to get the integer cycle times
-			if(temp.compare("{msec}:") == 0)
-			{
-				in_file >> temp;
+      if(temp.compare("Processor") == 0)
+      {
+        while(temp.compare("{msec}:") != 0)
+        {
+          in_file >> temp;
+        }
 
-				/** TO GET CYCLE TIMES **/
-				if(what_cycle == 0)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetMonitor(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 1)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetProcessor(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 2)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetScanner(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 3)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetHardDrive(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 4)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetKeyboard(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 5)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetMemory(val);
-					what_cycle++;
-				}
-				else if(what_cycle == 6)
-				{
-					int val = 5;
-					std::stringstream typ_int(temp);
-					typ_int >> val;
-					SetProjector(val);
-					what_cycle++;
-				}
-			}
+        in_file >> temp;
+        int val = 5;
+  			std::stringstream typ_int(temp);
+  			typ_int >> val;
+  			SetProcessor(val);
+  			what_cycle++;
+      }
+      else if(temp.compare("Monitor") == 0)
+      {
+        while(temp.compare("{msec}:") != 0)
+        {
+          in_file >> temp;
+        }
+
+        in_file >> temp;
+        int val = 5;
+  			std::stringstream typ_int(temp);
+  			typ_int >> val;
+  			SetMonitor(val);
+  			what_cycle++;
+      }
+      else if(temp.compare("Hard") == 0)
+      {
+        in_file >> temp;
+        if(temp.compare("drive") == 0)
+        {
+          in_file >> temp;
+          if(temp.compare("cycle") == 0)
+          {
+            while(temp.compare("{msec}:") != 0)
+            {
+              in_file >> temp;
+            }
+
+            in_file >> temp;
+            int val = 5;
+      			std::stringstream typ_int(temp);
+      			typ_int >> val;
+      			SetHardDrive(val);
+      			what_cycle++;
+          }
+        }
+      }
+      else if(temp.compare("Projector") == 0)
+      {
+        in_file >> temp;
+        if(temp.compare("cycle") == 0)
+        {
+          while(temp.compare("{msec}:") != 0)
+          {
+            in_file >> temp;
+          }
+
+          in_file >> temp;
+          int val = 5;
+    			std::stringstream typ_int(temp);
+    			typ_int >> val;
+    			SetProjector(val);
+    			what_cycle++;
+        }
+        else if(temp.compare("quantity:") == 0)
+        {
+          in_file >> temp;
+          int val = 5;
+    			std::stringstream typ_int(temp);
+    			typ_int >> val;
+          SetProjectorQuantity(val);
+          what_cycle++;
+        }
+      }
+      else if(temp.compare("Keyboard") == 0)
+      {
+        while(temp.compare("{msec}:") != 0)
+        {
+          in_file >> temp;
+        }
+
+        in_file >> temp;
+        int val = 5;
+  			std::stringstream typ_int(temp);
+  			typ_int >> val;
+  			SetKeyboard(val);
+  			what_cycle++;
+      }
+      else if(temp.compare("Memory") == 0)
+      {
+        in_file >> temp;
+        if(temp.compare("cycle") == 0)
+        {
+          while(temp.compare("{msec}:") != 0)
+          {
+            in_file >> temp;
+          }
+
+          in_file >> temp;
+          int val = 5;
+    			std::stringstream typ_int(temp);
+    			typ_int >> val;
+    			SetMemory(val);
+    			what_cycle++;
+        }
+      }
+      else if(temp.compare("Scanner") == 0)
+      {
+        while(temp.compare("{msec}:") != 0)
+        {
+          in_file >> temp;
+        }
+
+        in_file >> temp;
+        int val = 5;
+  			std::stringstream typ_int(temp);
+  			typ_int >> val;
+  			SetScanner(val);
+  			what_cycle++;
+      }
+
 
 			else if(temp.compare("{kbytes}:") == 0)
 			{
@@ -141,7 +202,6 @@ int Configuration::LoadConfigFile(std::string file_name)
 				val = val * 1000;
 				SetSystemMemory(val);
 			}
-
 			/** TO GET META NAME AND LOG NAME **/
 			else if(temp.compare("Path:") == 0)
 			{
@@ -172,8 +232,8 @@ int Configuration::LoadConfigFile(std::string file_name)
 		in_file.close();
 
 		//If there was an invalid amount of hardware cycles or file names
-		if(!(what_cycle == 7 && file_name_flag))
-			return 1; //AN ERROR CODE
+		// if(!(what_cycle == 7 && file_name_flag))
+		// 	return 1; //AN ERROR CODE
 
 		return 0;
 	}
@@ -325,6 +385,18 @@ bool Configuration::SetSystemMemory(int system_memory)
 	return true;
 }
 
+/**
+	Sets the quantity of projectors
+
+	@param quantity
+	@return boolean value - true if successful, false if not
+*/
+bool Configuration::SetProjectorQuantity(int quantity)
+{
+	m_projector_quantity = quantity;
+
+	return true;
+}
 
 /**
 	Returns the value stores in m_cycle_projector
@@ -420,6 +492,17 @@ int Configuration::GetSystemMemory()
 }
 
 /**
+	Returns the value stored in m_projector_quantity
+
+	@params void
+	@return m_projector_quantity
+*/
+int Configuration::GetProjectorQuantity()
+{
+	return m_projector_quantity;
+}
+
+/**
 	Prints the values of all data held in the object to display (monitor)
 
 	@params void
@@ -436,6 +519,7 @@ void Configuration::PrintAllData()
 	std::cout << "Memory = " << m_cycle_memory << " ms/cycle" << std::endl;
 	std::cout << "Projector = " << m_cycle_projector << " ms/cycle" << std::endl;
 	std::cout << "System memory: " << m_system_memory << " kbytes" << std::endl;
+  std::cout << "Projector quantity: " << m_projector_quantity << std::endl;
 	std::cout << "Logged to: ";
 
 	if(m_log_to.compare("Both") == 0)
