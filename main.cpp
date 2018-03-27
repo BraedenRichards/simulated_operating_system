@@ -124,6 +124,14 @@ void LogFiles(MetaData, Configuration, LogFile*);
 */
 void wait();
 
+/**
+  Adds the memory block size to the current block starting block
+
+  @params
+  @return int
+*/
+int AllocateMemoryBlock(int hex_memory, Configuration config_file, int times);
+
 
 /****GLOBAL VARIABLES****/
 double timer_set = 0;
@@ -289,6 +297,7 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 	node* temp = meta_data.data.head;
 	clock_t start_clock = clock();
 	clock_t end_clock = clock();
+  int hex_memory = 0;
 
 	logTime(time_taken(start_clock, end_clock), " - Simulator program starting\n", log_out, log_to);
 
@@ -349,7 +358,6 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 		{
 			if(temp->data_descriptor.compare("allocate") == 0)
 			{
-				int hex_memory = GetRandomInt();
 				pcb->processState = PCB_READY;
 				pcb->processState = PCB_RUNNING;
 				end_clock = clock();
@@ -357,10 +365,11 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				timer_set = (temp->number_of_cycles * config_file.GetMemoryCycle())/(double)1000;
 				wait();
 				end_clock = clock();
-				logTime(time_taken(start_clock, end_clock), " - Process 1: memory allocated at 0x000000", log_out, log_to);
-				std::cout << std::fixed << std::setprecision(2) << std::hex << hex_memory << std::endl;
+				logTime(time_taken(start_clock, end_clock), " - Process 1: memory allocated at 0x", log_out, log_to);
+				std::cout << std::setw(8) << std::setfill('0') << std::hex << hex_memory << std::endl;
 				log_out->LogHex(hex_memory);
 				log_out->LogChar('\n');
+        hex_memory = AllocateMemoryBlock(hex_memory, config_file, 1);
 				pcb->processState = PCB_EXIT;
 			}
 			else if(temp->data_descriptor.compare("block") == 0)
@@ -722,4 +731,15 @@ void LogFiles(MetaData meta_data, Configuration config_file, LogFile* log_out)
 		temp = temp->next;
 	}
 	log_out->LogString("\n\n");
+}
+
+/**
+  Adds the memory block size to the current block starting block
+
+  @params
+  @return int
+*/
+int AllocateMemoryBlock(int hex_memory, Configuration config_file, int times)
+{
+  return hex_memory + (config_file.GetMemoryBlockSize()  * times);
 }
