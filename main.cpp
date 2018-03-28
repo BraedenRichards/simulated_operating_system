@@ -290,6 +290,8 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 	clock_t start_clock = clock();
 	clock_t end_clock = clock();
   int hex_memory = 0;
+  int hard_drive_counter = 0;
+  int projector_counter = 0;
 
 	logTime(time_taken(start_clock, end_clock), " - Simulator program starting\n", log_out, log_to);
 
@@ -389,7 +391,8 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				pcb->processState = PCB_RUNNING;
 				pcb->processState = PCB_WAIT;
 				end_clock = clock();
-				logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive input\n", log_out, log_to);
+				logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive input on HDD ", log_out, log_to);
+        std::cout << hard_drive_counter << std::endl;
 
 				pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 				pthread_join(temporary, NULL);
@@ -398,6 +401,11 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				logTime(time_taken(start_clock, end_clock), " - Process 1: end hard drive input\n", log_out, log_to);
 				pcb->processState = PCB_RUNNING;
 				pcb->processState = PCB_EXIT;
+
+        if(hard_drive_counter < (config_file.GetHardDriveQuantity()-1))
+          hard_drive_counter++;
+        else
+          hard_drive_counter = 0;
 			}
 			else if(temp->data_descriptor.compare("keyboard") == 0)
 			{
@@ -452,7 +460,8 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			pcb->processState = PCB_RUNNING;
 			pcb->processState = PCB_WAIT;
 			end_clock = clock();
-			logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive output\n", log_out, log_to);
+			logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive output on HDD ", log_out, log_to);
+      std::cout << hard_drive_counter << std::endl;
 
 			pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 			pthread_join(temporary, NULL);
@@ -461,6 +470,11 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			logTime(time_taken(start_clock, end_clock), " - Process 1: end hard drive output\n", log_out, log_to);
 			pcb->processState = PCB_RUNNING;
 			pcb->processState = PCB_EXIT;
+
+      if(hard_drive_counter < (config_file.GetHardDriveQuantity()-1))
+        hard_drive_counter++;
+      else
+        hard_drive_counter = 0;
 		}
 		else if(temp->data_descriptor.compare("monitor") == 0)
 		{
@@ -492,7 +506,8 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			pcb->processState = PCB_RUNNING;
 			pcb->processState = PCB_WAIT;
 			end_clock = clock();
-			logTime(time_taken(start_clock, end_clock), " - Process 1: start projector output\n", log_out, log_to);
+			logTime(time_taken(start_clock, end_clock), " - Process 1: start projector output on PROJ ", log_out, log_to);
+      std::cout <<projector_counter << std::endl;
 
 			pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 			pthread_join(temporary, NULL);
@@ -501,6 +516,11 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			logTime(time_taken(start_clock, end_clock), " - Process 1: end projector output\n", log_out, log_to);
 			pcb->processState = PCB_RUNNING;
 			pcb->processState = PCB_EXIT;
+
+      if(projector_counter < (config_file.GetProjectorQuantity()-1))
+        projector_counter++;
+      else
+        projector_counter = 0;
 		}
 	}
 
