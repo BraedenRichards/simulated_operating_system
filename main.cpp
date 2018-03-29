@@ -740,5 +740,10 @@ void LogFiles(MetaData meta_data, Configuration config_file, LogFile* log_out)
 */
 int AllocateMemoryBlock(int hex_memory, Configuration config_file, int times)
 {
-  return hex_memory + (config_file.GetMemoryBlockSize()  * times);
+  int new_hex_address = hex_memory + (config_file.GetMemoryBlockSize()  * times);
+  if(new_hex_address < config_file.GetSystemMemory())
+      return new_hex_address;
+  else
+    return 0;
+
 }
