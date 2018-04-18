@@ -1,5 +1,5 @@
 /**
-	CS 446 Assignment 2
+	CS 446 Assignment 3
 	configuration.cpp
 	Purpose: Contains the functions included in the class 'Configuration'
 

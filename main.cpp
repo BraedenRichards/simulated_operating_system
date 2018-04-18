@@ -1,5 +1,5 @@
 /**
-	CS 446 Assignment 2
+	CS 446 Assignment 3
 	main.cpp
 	Purpose: contains the main function to run the program as well as a few functions
 						needed in the main function
@@ -21,6 +21,7 @@
 #include "metadata.h"
 #include "thread.h"
 #include "pcb.h"
+#include "mutex.h"
 
 
 /****DEFINITIONS****/
@@ -289,6 +290,7 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 	node* temp = meta_data.data.head;
 	clock_t start_clock = clock();
 	clock_t end_clock = clock();
+	Mutex mutex_lock;
   int hex_memory = 0;
   int hard_drive_counter = 0;
   int projector_counter = 0;
@@ -393,9 +395,13 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive input on HDD ", log_out, log_to);
         std::cout << hard_drive_counter << std::endl;
+				log_out->LogInt(hard_drive_counter);
+				log_out->LogChar('\n');
 
+				mutex_lock.LockMutex();
 				pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 				pthread_join(temporary, NULL);
+				mutex_lock.UnlockMutex();
 
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: end hard drive input\n", log_out, log_to);
@@ -419,8 +425,10 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: start keyboard input\n", log_out, log_to);
 
+				mutex_lock.LockMutex();
 				pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 				pthread_join(temporary, NULL);
+				mutex_lock.UnlockMutex();
 
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: end keyboard input\n", log_out, log_to);
@@ -439,8 +447,10 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: start scanner input\n", log_out, log_to);
 
+				mutex_lock.LockMutex();
 				pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 				pthread_join(temporary, NULL);
+				mutex_lock.UnlockMutex();
 
 				end_clock = clock();
 				logTime(time_taken(start_clock, end_clock), " - Process 1: end scanner input\n", log_out, log_to);
@@ -462,9 +472,13 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: start hard drive output on HDD ", log_out, log_to);
       std::cout << hard_drive_counter << std::endl;
+			log_out->LogInt(hard_drive_counter);
+			log_out->LogChar('\n');
 
+			mutex_lock.LockMutex();
 			pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 			pthread_join(temporary, NULL);
+			mutex_lock.UnlockMutex();
 
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: end hard drive output\n", log_out, log_to);
@@ -488,8 +502,10 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: start monitor output\n", log_out, log_to);
 
+			mutex_lock.LockMutex();
 			pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 			pthread_join(temporary, NULL);
+			mutex_lock.UnlockMutex();
 
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: end monitor output\n", log_out, log_to);
@@ -508,9 +524,13 @@ void RunProgram(thread_data my_data, MetaData meta_data, LogFile* log_out, int l
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: start projector output on PROJ ", log_out, log_to);
       std::cout <<projector_counter << std::endl;
+			log_out->LogInt(projector_counter);
+			log_out->LogChar('\n');
 
+			mutex_lock.LockMutex();
 			pthread_create(&temporary, NULL, SimulateIO, (void *) &my_data);
 			pthread_join(temporary, NULL);
+			mutex_lock.UnlockMutex();
 
 			end_clock = clock();
 			logTime(time_taken(start_clock, end_clock), " - Process 1: end projector output\n", log_out, log_to);

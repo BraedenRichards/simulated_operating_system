@@ -1,5 +1,5 @@
 /**
-	CS 446 Assignment 2
+	CS 446 Assignment 3
 	configuration.h
 	Purpose: Contains prototype of the class Configuration
 
