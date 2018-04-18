@@ -1,5 +1,5 @@
 /**
-  CS 446 Assignment 2
+  CS 446 Assignment 3
   metadata.cpp
   Purpose: Contains the function included in class MetaData
 
@@ -123,6 +123,30 @@ void MetaData::BreakUpData(node *nodeForThis)
   std::stringstream typ_int(temp);
   typ_int >> i;
   nodeForThis->number_of_cycles = i;
+
+  return;
+}
+
+/**
+  Sorts the data into either FIFO, PS, or SJF
+
+  @params string sort_type
+  @return void
+*/
+void MetaData::SortData(std::string sort_type)
+{
+  if(sort_type.compare("FIFO") == 0)
+  {
+
+  }
+  else if(sort_type.compare("PS") == 0)
+  {
+
+  }
+  else if(sort_type.compare("SJF") == 0)
+  {
+    
+  }
 
   return;
 }
