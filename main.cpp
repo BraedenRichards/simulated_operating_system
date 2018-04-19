@@ -670,13 +670,13 @@ void wait()
 	end = clock();
 	while(timer_set != 0)
 	{
-		start = clock();
-		end = clock();
-		while(((end - start)/(double)CLOCKS_PER_SEC) < 0.100)
-		{
-			// std::cout << (end-start)/(double)CLOCKS_PER_SEC << std::endl;
-			end = clock();
-		}
+		// start = clock();
+		// end = clock();
+		// while(((end - start)/(double)CLOCKS_PER_SEC) < 0.100)
+		// {
+		// 	// std::cout << (end-start)/(double)CLOCKS_PER_SEC << std::endl;
+		// 	end = clock();
+		// }
 	}
 		// std::cout << "Timer_set = " << timer_set << std::endl;
 
